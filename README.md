@@ -1,2 +1,3 @@
-# os-notes
-about operating systems
+# notes
+
+about some awesome algorithms and curious ADT realisations.
