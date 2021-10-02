@@ -1,0 +1,78 @@
+АТД «Очередь»
+
+Определение. Очередь – абстрактный тип данных (или структура данных), представляющий из себя список элементов, организованный по принципу
+FIFO = First In First Out, «первым пришел, первым вышел».
+Операции:
+1. Вставка (Enqueue)
+2. Извлечение (Dequeue) – извлечение элемента, добавленного первым.
+
+Очередь также как и стек можно реализовать с помощью массива или с помощью списка.
+Реализация с помощью массива.
+Храним указатель на массив, текущее начало и конец очереди.
+Считаем массив зацикленным.
+Можно использовать динамически растущий буфер.
+
+// Очередь целых чисел, реализованная с помощью массива.
+class CQueue {
+public:
+CQueue( int size );
+~CQueue() { delete[] buffer; }
+// Добавление и извлечение элемента из очереди.
+void Enqueue( int a );
+int Dequeue();
+// Проверка на пустоту.
+bool IsEmpty() const { return head == tail; }
+private:
+int* buffer;
+int bufferSize;
+int head; // Указывает на первый элемент очереди.
+int tail; // Указывает на следующий после последнего.
+};
+
+
+CQueue::CQueue( int size ) :
+bufferSize( size ),
+head( 0 ),
+tail( 0 )
+{
+buffer = new int[bufferSize]; // Создаем буфер.
+}
+// Добавление элемента.
+void CQueue::Enqueue( int a )
+{
+assert( ( tail + 1 ) % bufferSize != head );
+buffer[tail] = a;
+tail = ( tail + 1 ) % bufferSize;
+}
+// Извлечение элемента.
+int CQueue::Dequeue()
+{
+assert( head != tail );
+int result = buffer[head];
+head = ( head + 1 ) % bufferSize;
+return result;
+}
+
+В CLI для  этого  предусмотрен  класс  System.Collections.Queue  с  методами  Enqueue  и 
+Dequeue.
+Реализация очереди на основе двусвязного списка (LinkedList<T>). Метод Enqueue – добавляет
+новый элемент в начало списка(конец очереди); метод Dequeue – удаляет последний элемент
+списка (первый в очереди). Метод Peek – возвращает первый элемент из очереди, а свойство
+Count – указывает на их количество.
+public class Queue<T> 
+{     
+LinkedList<T> _items = new LinkedList<T>();  
+public void Enqueue(T value)  
+{ items.AddFirst(value); }  
+
+public T Dequeue()    
+{ T last = items.Last.Value;  
+items.RemoveLast();  
+return last;  }     
+ 
+public T Peek()     
+{ return items.Last.Value;   }  
+
+public int Count 
+{  get; }
+}
